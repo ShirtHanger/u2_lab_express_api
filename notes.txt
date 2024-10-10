@@ -1,0 +1,25 @@
+// Review index route
+
+app.get('/reviews', async (req, res) => {
+  const reviews = await Review.find({})
+  // Sends response as a json object
+  res.json(reviews)
+})
+
+//Review show route
+
+app.get('/reviews/:id', async (req, res) => {
+  // try catch is simular to an if else, catch shows you the error
+  // Safe, reduces vulnerbilities
+  try {
+      const { id } = req.params
+      const review = await Review.findById(id)
+      // Gives error if the ID is falsey
+      if (!review) 
+          throw Error('404 - Review not found')
+      res.json(review)
+  } catch (error) {
+      console.log(error)
+      res.send('Review not found')
+  }
+})
